@@ -18,7 +18,6 @@ top_20_companies <- plastics %>%
   filter(!parent_company %in% c("null", "NULL", "Grand Total", "Unbranded")) %>% # Remove rows where parent_company is "null" or "NULL"
   filter(row_number() <= 20)
 
-<<<<<<< Updated upstream
 by_type <- plastics %>%
   group_by(year) %>%
   summarize(
@@ -49,7 +48,6 @@ plot_3_df_2 <- data.frame(
     data_2020$o, data_2020$pet, data_2020$pp, data_2020$ps, data_2020$pvc
   )
 )
-=======
 # Group all countries and sum the # of events and volunteers
 events_and_volunteers_per_country <- plastics %>%
   group_by(country) %>%
