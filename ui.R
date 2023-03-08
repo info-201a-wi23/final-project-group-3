@@ -12,6 +12,7 @@ top_20_companies <- plastics %>%
   filter(!parent_company %in% c("null", "NULL", "Grand Total", "Unbranded")) %>% # Remove rows where parent_company is "null" or "NULL"
   filter(row_number() <= 20)
 
+<<<<<<< Updated upstream
 by_type <- plastics %>%
   group_by(year) %>%
   summarize(
@@ -42,6 +43,22 @@ plot_3_df_2 <- data.frame(
     data_2020$o, data_2020$pet, data_2020$pp, data_2020$ps, data_2020$pvc
   )
 )
+=======
+# Group all countries and sum the # of events and volunteers
+events_and_volunteers_per_country <- plastics %>%
+  group_by(country) %>%
+  summarize(num_events = sum(num_events, na.rm = TRUE), num_volunteers = sum(volunteers, na.rm = TRUE)) %>%
+  filter(!country %in% c("EMPTY"))
+
+# Create a scatter plot of events and volunteers to show specific countries as outliers
+ggplot(events_and_volunteers_per_country, aes(x = num_events, y = num_volunteers)) +
+  geom_point(aes(color = country)) +
+  geom_text(aes(label = country), hjust = -0.2, vjust = 0.5) +
+  labs(title = "Number of Events vs Number of Volunteers by Country", x = "Number of Events", y = "Number of Volunteers") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  scale_x_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_events), by = 10000)) +
+  scale_y_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_volunteers), by = 300000))
 
 # Application title
 intro_panel <- tabPanel(
@@ -64,7 +81,18 @@ plot_panel <- tabPanel(
   mainPanel(plotlyOutput("plot"))
 )
 
-plot_panel_2 <- tabPanel("Second Plot")
+plot_panel_2 <- tabPanel(
+  "Number of Events vs Number of Volunteers",
+  sidebarPanel(
+    selectInput(
+      inputId = "panel2_selection",
+      label = "Select Country",
+      choices = events_and_volunteers_per_country$country,
+      selected = "United States of America",
+      multiple = TRUE)),
+
+                         mainPanel(plotOutput(outputId = "plot2"))
+)
 
 plot_panel_3 <- tabPanel(
   "Emissions by Plastic Type",

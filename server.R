@@ -74,6 +74,34 @@ server <- function(input, output) {
 
   plotlyOutput(outputId = "plot")
 
+  output$plot2 <- renderPlot({
+    
+    chart2 <- events_and_volunteers_per_country %>% 
+      filter(country %in% input$panel2_selection) %>% 
+      group_by(country) %>% 
+      summarize(num_events = sum(num_events, na.rm = TRUE), 
+                num_volunteers = sum(volunteers, na.rm = TRUE))
+    
+    plot2 <- ggplot(data = chart2, aes(x = num_events, y = num_volunteers)) +
+      geom_point(aes(color = country)) +
+      geom_text(aes(label = country), hjust = -0.2, vjust = 0.5) +
+      labs(title = "Number of Events vs Number of Volunteers by Country",
+           x = "Number of Events", 
+           y = "Number of Volunteers") +
+      theme_minimal() +
+      theme(legend.position = "none") +
+      scale_x_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_events), by = 10000)) +
+      scale_y_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_volunteers), by = 300000))
+
+    plot2(data = chart2,
+          country = input$panel2_selection,
+          )
+        
+    return(ggplot(plot2))
+  })
+  
+  plotOutput(outputId = "plot2")
+  
   output$plot_3 <- renderPlotly({
     if (input$year_selection_3 == "2019") {
       filtered_3 <- plot_3_df_1 %>% filter(type %in% input$type_selection)
