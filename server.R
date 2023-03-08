@@ -69,7 +69,7 @@ server <- function(input, output) {
       theme(legend.position = "none") +
       scale_y_continuous(labels = label_number_si())
 
-    return(ggplotly(plot))
+    return(ggplotly(plot, tooltip = c("y", "million metric tons")))
   })
 
   plotlyOutput(outputId = "plot")
