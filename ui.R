@@ -20,6 +20,30 @@ top_20_companies <- plastics %>%
   filter(!parent_company %in% c("null", "NULL", "Grand Total", "Unbranded")) %>% # Remove rows where parent_company is "null" or "NULL"
   filter(row_number() <= 20)
 
+by_type <- plastics %>% 
+  group_by(year) %>% 
+  summarize(empty = sum(empty, na.rm = TRUE),
+            hdpe = sum(hdpe, na.rm = TRUE),
+            ldpe = sum(ldpe, na.rm = TRUE),
+            o = sum(o, na.rm = TRUE),
+            pet = sum(pet, na.rm = TRUE),
+            pp = sum(pp, na.rm = TRUE),
+            ps = sum(ps, na.rm = TRUE),
+            pvc = sum(pvc, na.rm = TRUE))
+data_2019 <- by_type %>% 
+  filter(year == 2019)
+data_2020 <- by_type %>% 
+  filter(year == 2020)
+plot_3_df_1 <- data.frame(
+  type = c("empty", "hdpe", "ldpe", "o", "pet", "pp", "ps", "pvc"),
+  count = c(data_2019$empty, data_2019$hdpe, data_2019$ldpe, 
+                      data_2019$o, data_2019$pet, data_2019$pp, data_2019$ps, data_2019$pvc)
+)
+plot_3_df_2 <- data.frame(
+  type = c("empty", "hdpe", "ldpe", "o", "pet", "pp", "ps", "pvc"),
+  count = c(data_2020$empty, data_2020$hdpe, data_2020$ldpe, 
+            data_2020$o, data_2020$pet, data_2020$pp, data_2020$ps, data_2020$pvc)
+)
 
 # Application title
 intro_panel <- tabPanel(
@@ -43,7 +67,21 @@ plot_panel <- tabPanel("Emissions by Company",
 
 plot_panel_2 <- tabPanel("Second Plot")
 
-plot_panel_3 <- tabPanel("Third Plot")
+plot_panel_3 <- tabPanel("Emissions by Plastic Type", 
+                         sidebarPanel(
+                           selectInput(inputId = "year_selection_3",
+                                       label = "Select Year",
+                                       choices = c("2019", "2020"),
+                                       selected = "2019",
+                                       multiple = FALSE),
+                           selectInput(inputId = "type_selection",
+                                       label = "Select Plastic Type",
+                                       choices = plot_3_df_1$type,
+                                       selected = "pet",
+                                       multiple = TRUE)),
+                         
+                         mainPanel(plotlyOutput("plot_3"))
+)
 
 conclusion_panel <- tabPanel(
   "Conclusion"
