@@ -1,11 +1,3 @@
-library("markdown")
-library("dplyr")
-library("ggplot2")
-library("scales")
-library("plotly")
-library("bslib")
-library(shiny)
-
 # Get the original data from Tidy Tuesday
 tuesdata <- tidytuesdayR::tt_load("2021-01-26")
 
@@ -20,67 +12,79 @@ top_20_companies <- plastics %>%
   filter(!parent_company %in% c("null", "NULL", "Grand Total", "Unbranded")) %>% # Remove rows where parent_company is "null" or "NULL"
   filter(row_number() <= 20)
 
-by_type <- plastics %>% 
-  group_by(year) %>% 
-  summarize(empty = sum(empty, na.rm = TRUE),
-            hdpe = sum(hdpe, na.rm = TRUE),
-            ldpe = sum(ldpe, na.rm = TRUE),
-            o = sum(o, na.rm = TRUE),
-            pet = sum(pet, na.rm = TRUE),
-            pp = sum(pp, na.rm = TRUE),
-            ps = sum(ps, na.rm = TRUE),
-            pvc = sum(pvc, na.rm = TRUE))
-data_2019 <- by_type %>% 
+by_type <- plastics %>%
+  group_by(year) %>%
+  summarize(
+    empty = sum(empty, na.rm = TRUE),
+    hdpe = sum(hdpe, na.rm = TRUE),
+    ldpe = sum(ldpe, na.rm = TRUE),
+    o = sum(o, na.rm = TRUE),
+    pet = sum(pet, na.rm = TRUE),
+    pp = sum(pp, na.rm = TRUE),
+    ps = sum(ps, na.rm = TRUE),
+    pvc = sum(pvc, na.rm = TRUE)
+  )
+data_2019 <- by_type %>%
   filter(year == 2019)
-data_2020 <- by_type %>% 
+data_2020 <- by_type %>%
   filter(year == 2020)
 plot_3_df_1 <- data.frame(
   type = c("empty", "hdpe", "ldpe", "o", "pet", "pp", "ps", "pvc"),
-  count = c(data_2019$empty, data_2019$hdpe, data_2019$ldpe, 
-                      data_2019$o, data_2019$pet, data_2019$pp, data_2019$ps, data_2019$pvc)
+  count = c(
+    data_2019$empty, data_2019$hdpe, data_2019$ldpe,
+    data_2019$o, data_2019$pet, data_2019$pp, data_2019$ps, data_2019$pvc
+  )
 )
 plot_3_df_2 <- data.frame(
   type = c("empty", "hdpe", "ldpe", "o", "pet", "pp", "ps", "pvc"),
-  count = c(data_2020$empty, data_2020$hdpe, data_2020$ldpe, 
-            data_2020$o, data_2020$pet, data_2020$pp, data_2020$ps, data_2020$pvc)
+  count = c(
+    data_2020$empty, data_2020$hdpe, data_2020$ldpe,
+    data_2020$o, data_2020$pet, data_2020$pp, data_2020$ps, data_2020$pvc
+  )
 )
 
 # Application title
 intro_panel <- tabPanel(
   "Introduction",
-  fluidPage(
-
-  )
+  fluidPage()
 )
 # An introductory page that provides an overview of the project. What major questions are you seeking to answer? What data are you using to answer those questions? Please provide a URL link to the original source(s) of the data. Where did the data come from, and what are possible ethical questions or limitations to consider with this dataset? You should also include some additional "flare" on this landing page, such as an image.
 
-plot_panel <- tabPanel("Emissions by Company", 
-                       sidebarPanel(
-                         selectInput(inputId = "user_selection",
-                                     label = "Select Company",
-                                     choices = top_20_companies$parent_company,
-                                     selected = "The Coca-Cola Company",
-                                     multiple = TRUE)),
-                         
-                       mainPanel(plotlyOutput("plot"))
+plot_panel <- tabPanel(
+  "Emissions by Company",
+  sidebarPanel(
+    selectInput(
+      inputId = "user_selection",
+      label = "Select Company",
+      choices = top_20_companies$parent_company,
+      selected = "The Coca-Cola Company",
+      multiple = TRUE
+    )
+  ),
+  mainPanel(plotlyOutput("plot"))
 )
 
 plot_panel_2 <- tabPanel("Second Plot")
 
-plot_panel_3 <- tabPanel("Emissions by Plastic Type", 
-                         sidebarPanel(
-                           selectInput(inputId = "year_selection_3",
-                                       label = "Select Year",
-                                       choices = c("2019", "2020"),
-                                       selected = "2019",
-                                       multiple = FALSE),
-                           selectInput(inputId = "type_selection",
-                                       label = "Select Plastic Type",
-                                       choices = plot_3_df_1$type,
-                                       selected = "pet",
-                                       multiple = TRUE)),
-                         
-                         mainPanel(plotlyOutput("plot_3"))
+plot_panel_3 <- tabPanel(
+  "Emissions by Plastic Type",
+  sidebarPanel(
+    selectInput(
+      inputId = "year_selection_3",
+      label = "Select Year",
+      choices = c("2019", "2020"),
+      selected = "2019",
+      multiple = FALSE
+    ),
+    selectInput(
+      inputId = "type_selection",
+      label = "Select Plastic Type",
+      choices = plot_3_df_1$type,
+      selected = "pet",
+      multiple = TRUE
+    )
+  ),
+  mainPanel(plotlyOutput("plot_3"))
 )
 
 conclusion_panel <- tabPanel(
