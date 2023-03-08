@@ -1,3 +1,9 @@
+library(shiny)
+library("dplyr")
+library("ggplot2")
+library("scales")
+library("plotly")
+library("bslib")
 # Get the original data from Tidy Tuesday
 tuesdata <- tidytuesdayR::tt_load("2021-01-26")
 
