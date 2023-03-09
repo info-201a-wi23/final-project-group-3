@@ -64,11 +64,18 @@ ggplot(events_and_volunteers_per_country, aes(x = num_events, y = num_volunteers
   scale_x_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_events), by = 10000)) +
   scale_y_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_volunteers), by = 300000))
 
+my_theme <- bs_theme(bg = "#0b3", #background color
+                     fg = "blue", #foreground color
+                     primary = "#FFF", # primary color
+) 
+# Update BootSwatch Theme
+my_theme <- bs_theme_update(my_theme, bootswatch = "quartz")
+
 # Application title
 intro_panel <- tabPanel(
   "Introduction",
   fluidPage(
-    includeMarkdown("intro.Rmd")
+    includeMarkdown("intro.Rmd"),
   )
 )
 # An introductory page that provides an overview of the project. What major questions are you seeking to answer? What data are you using to answer those questions? Please provide a URL link to the original source(s) of the data. Where did the data come from, and what are possible ethical questions or limitations to consider with this dataset? You should also include some additional "flare" on this landing page, such as an image.
@@ -136,6 +143,7 @@ conclusion_panel <- tabPanel(
 # A conclusion page of summary takeaways that hones in on at least 3 major takeaways from the project, which should be related to a specific aspect of your analysis. This page should include at least 250 words of text, but feel free to incorporate tables, graphics, or other elements necessary to convey your conclusions.
 
 ui <- navbarPage(
+  theme = my_theme,
   "Climate Change Project",
   intro_panel,
   plot_panel,
