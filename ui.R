@@ -95,7 +95,7 @@ plot_panel_2 <- tabPanel(
       selected = "United States of America",
       multiple = TRUE)),
 
-                         mainPanel(plotOutput(outputId = "plot2"))
+  mainPanel(plotlyOutput(outputId = "plot2"))
 )
 
 plot_panel_3 <- tabPanel("Emissions by Plastic Type", 
