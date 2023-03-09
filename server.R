@@ -62,7 +62,7 @@ plot_3_df_1 <- data.frame(
 plot_3_df_2 <- data.frame(
   type = c("hdpe", "ldpe", "pet", "pp", "ps", "pvc"),
   count = c(
-    data_2020$hdpe, data_2020$ldpe, data_2020$pet, 
+    data_2020$hdpe, data_2020$ldpe, data_2020$pet,
     data_2020$pp, data_2020$ps, data_2020$pvc
   )
 )
@@ -150,10 +150,10 @@ server <- function(input, output) {
           <p>Our critical research questions aimed to identify the brands responsible for the most plastic pollution, allowing for targeted efforts to reduce their impact. With increased awareness of the issue of single-use plastics, we extracted information from a dataset to explore the types of plastic and locations most affected, revealing crucial insights for addressing the issue of plastic pollution. By identifying the companies at fault, our research provides a basis for holding them accountable and seeking ways to lessen their effect on the environment. Our findings have important implications for raising awareness and driving change.</p>
           <h2>Specific Takeaways</h2>
           <ul>
-            <li>The Coca-Cola Parent Company was responsible for the most plastic emissions (<span style='background-color: yellow; font-weight: bold;'>25,530 million metric tons</span>)</li>
-            <li>The United States of America had the highest number of events (<span style='background-color: yellow; font-weight: bold;'>74,870</span>), yet a fairly low number of volunteers in relation (<span style='background-color: yellow; font-weight: bold;'>623,556</span>)</li>
-            <li>Indonesia had the highest total number of volunteers (<span style='background-color: yellow; font-weight: bold;'>4,471,848</span>) with only <span style='background-color: yellow; font-weight: bold;'>35,052</span> events.</li>
-            <li>The highest plastic-type emitted was Polyester (PET) in 2019 (<span style='background-color: yellow; font-weight: bold;'>193,796</span>).</li>
+            <li>The Coca-Cola Parent Company was responsible for the most plastic emissions (<b>25,530 million metric tons</b>)</li>
+            <li>The United States of America had the highest number of events (<b>74,870</b>), yet a fairly low number of volunteers in relation (<b>623,556</b>)</li>
+            <li>Indonesia had the highest total number of volunteers (<b>4,471,848</b>) with only <b>35,052</b> events.</li>
+            <li>The highest plastic-type emitted was Polyester (PET) in 2019 (<b>193,796</b>).</li>
           </ul>
           <p>Insights from our research into the amount and types of plastic produced by companies have broader implications for technologists, designers, and policymakers. Technologists can use the data to develop new technologies and products that reduce plastic waste, while designers can use it to design more sustainable products. Policymakers can use the data to inform regulations and policies aimed at reducing plastic waste and to track progress over time with a focus on the mass-producing companies we discovered.</p>
           <p>In conclusion, while this data provides valuable insights in the amount and types of plastic pollution and their main sources, it is important to note that it is not entirely comprehensive and may not accurately reflect the full extent of plastic pollution each year. However, even with the data present here, the amount of plastic emissions is unacceptable and will ultimately lead to our planet's demise. Change is crucial.</p>")
