@@ -82,7 +82,8 @@ plot_panel <- tabPanel(
       multiple = TRUE
     )
   ),
-  mainPanel(plotlyOutput("plot"))
+  mainPanel(plotlyOutput("plot"),
+            p("This visualization represents the top 20 plastic-emitting companies and how much total million metric tons of plastic waste was recorded for them in 2019 and 2020. As we can see, The Coca-Cola Company is by far the largest emittor of plastic, with 25530 millions metric tons emitted in these two years. Other prominent plastic pollutors include Universal Robina Corporation, Nestle, PepsiCo and Colgate-Palmolive."))
 )
 
 plot_panel_2 <- tabPanel(
