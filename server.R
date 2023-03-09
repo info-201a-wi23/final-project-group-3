@@ -54,9 +54,8 @@ data_2020 <- by_type %>%
   filter(year == 2020)
 plot_3_df_1 <- data.frame(
   type = c("hdpe", "ldpe", "pet", "pp", "ps", "pvc"),
-  count = c(
-    data_2019$empty, data_2019$hdpe, data_2019$ldpe,
-    data_2019$o, data_2019$pet, data_2019$pp, data_2019$ps, data_2019$pvc
+  count = c(data_2019$hdpe, data_2019$ldpe, data_2019$pet, 
+            data_2019$pp, data_2019$ps, data_2019$pvc
   )
 )
 plot_3_df_2 <- data.frame(

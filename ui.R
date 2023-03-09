@@ -74,115 +74,84 @@ intro_panel <- tabPanel(
 
 plot_panel <- tabPanel(
   "Emissions by Company",
-  sidebarPanel(
-    selectInput(
-      inputId = "user_selection",
-      label = "Select Company",
-      choices = top_20_companies$parent_company,
-      selected = "The Coca-Cola Company",
-      multiple = TRUE
+  sidebarLayout(
+     sidebarPanel(
+        selectInput(
+        inputId = "user_selection",
+        label = "Select Company",
+        choices = top_20_companies$parent_company,
+        selected = "The Coca-Cola Company",
+        multiple = TRUE
+        )
+      ),
+    mainPanel(
+      plotlyOutput("plot"),
+      p("This visualization represents the top 20 plastic-emitting companies and how much total million metric tons of plastic waste was recorded for them in 2019 and 2020. As we can see, The Coca-Cola Company is by far the largest emittor of plastic, with 25530 millions metric tons emitted in these two years. Other prominent plastic pollutors include Universal Robina Corporation, Nestle, PepsiCo and Colgate-Palmolive.")
     )
-  ),
-  mainPanel(
-    plotlyOutput("plot")
-  ),
-  p("This visualization represents the top 20 plastic-emitting companies and how much total million metric tons of plastic waste was recorded for them in 2019 and 2020. As we can see, The Coca-Cola Company is by far the largest emittor of plastic, with 25530 millions metric tons emitted in these two years. Other prominent plastic pollutors include Universal Robina Corporation, Nestle, PepsiCo and Colgate-Palmolive.")
+  )
+ 
 )
 
 plot_panel_2 <- tabPanel(
   "Number of Events vs Number of Volunteers",
-  sidebarPanel(
-    selectInput(
-      inputId = "panel2_selection",
-      label = "Select Country",
-      choices = events_and_volunteers_per_country$country,
-      selected = as.character(c(
-        "United States of America", "China",
-        "Argentina", "United Kingdom", "Kenya"
-      )),
-      multiple = TRUE
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(
+        inputId = "panel2_selection",
+        label = "Select Country",
+        choices = events_and_volunteers_per_country$country,
+        selected = as.character(c(
+          "United States of America", "China",
+          "Argentina", "United Kingdom", "Kenya"
+        )),
+        multiple = TRUE
+      )
+    ),
+    mainPanel(
+      plotlyOutput(outputId = "plot2"),
+      p("This scatter plot depicts each country’s number of events and number of volunteers. By looking at the graph you can recognize which countries seem to be holding more events and how well those events are attended. The two outliers on the plot are China and the US, though they are far from each other. China’s data illustrates a lower number of events, but had many more volunteers, while the US was the opposite.")
     )
-  ),
-  mainPanel(
-    plotlyOutput("plot2")),
-    p("This scatter plot depicts each country’s number of events and number of volunteers. By looking at the graph you can recognize which countries seem to be holding more events and how well those events are attended. The two outliers on the plot are China and the US, though they are far from each other. China’s data illustrates a lower number of events, but had many more volunteers, while the US was the opposite."))
-
-
-plot_panel_3 <- tabPanel(
-  "Emissions by Plastic Type",
-  sidebarPanel(
-    selectInput(
-      inputId = "year_selection_3",
-      label = "Select Year",
-      choices = c("2019", "2020"),
-      selected = "2019",
-      multiple = FALSE
-    ),
-    selectInput(
-      inputId = "type_selection",
-      label = "Select Plastic Type",
-      choices = plot_3_df_1$type,
-      selected = "pet",
-      multiple = TRUE
-    ),
-    p("To avoid having a messy plot, we used abbreviations names for the different types of plastics. Here's the meaning of these abbreviations and what each type of plastics is commonly used for:"),
-    p("empty: category left empty (unknown)."),
-    p("hdpe: high density polyethylene. This is used in plastic milk containers, plastic bags, bottle caps, trash cans, etc."),
-    p("ldpe: low density polyethylene. This is used in plastic bags, Ziploc bags, buckets, squeeze bottles, etc."),
-    p("o: Category marked as other."),
-    p("pet: Polyester plastic count. This is used in Polyester fibers, soft drink bottles, food containers, etc. (This is the default choice)"),
-    p("pp: Polypropylene. This is used in flower pots, bumpers, carry-out beverage cupss, microwavable food containers, etc."),
-    p("ps: Polystyrene. This is used in toys, video cassettes, beverage/food coolers, beer cups, carry-out food containers, etc."),
-    p("pvc: PVC plastic. This is used in window frames, bottles for chemicals, flooring, plumbing pipes, etc.")
-  ),
-  mainPanel(
-    plotlyOutput("plot_3")),
-  p("This chart allows us to look at the count of different types of plastics by type. Since we only have the data of 2019 and 2020, it is hard to see the trend of count by time. Therefore, we made a graph for counts in 2019 and another graph for 2020. The default graph is for 2019. Users could change between the two graphs by changing the option of the first widget."),
-  p("The second widget controls which particular types of plastics users would like to see on the graph. The default choice is showing only polyester plastic. Users could choose up to having all categories show up on the graph. Clicking on the color bar of the legend on the right side could also hide a bar from showing on the graph. However, that won't take the category off the graph. "),
-  p("From these graphs we could have an idea of what plastic has a higher count overall and start forming plans to cut down the usage or reuse these plastics. Some of the plastics are recycable and some are not. By looking at the bars, we would be able to have a clearer idea of what the next steps should be. ")
-)
-selected <- as.character(c(
-  "United States of America", "China",
-  "Argentina", "United Kingdom", "Kenya"
-), multiple = TRUE)
-
-mainPanel(
-  plotlyOutput(outputId = "plot2"),
-  p("This scatter plot depicts each country’s number of events and number of volunteers. By looking at the graph you can recognize which countries seem to be holding more events and how well those events are attended. The two outliers on the plot are China and the US, though they are far from each other. China’s data illustrates a lower number of events, but had many more volunteers, while the US was the opposite.")
-)
-
-
-plot_panel_3 <- tabPanel(
-  "Emissions by Plastic Type",
-  sidebarPanel(
-    selectInput(
-      inputId = "year_selection_3",
-      label = "Select Year",
-      choices = c("2019", "2020"),
-      selected = "2019",
-      multiple = FALSE
-    ),
-    selectInput(
-      inputId = "type_selection",
-      label = "Select Plastic Type",
-      choices = plot_3_df_1$type,
-      selected = "pet",
-      multiple = TRUE
-    ),
-    p("To avoid having a messy plot, we used abbreviations names for the different types of plastics. Here's the meaning of these abbreviations and what each type of plastics is commonly used for:"),
-    p("hdpe: high density polyethylene. This is used in plastic milk containers, plastic bags, bottle caps, trash cans, etc."),
-    p("ldpe: low density polyethylene. This is used in plastic bags, Ziploc bags, buckets, squeeze bottles, etc."),
-    p("pet: Polyester plastic count. This is used in Polyester fibers, soft drink bottles, food containers, etc. (This is the default choice)"),
-    p("pp: Polypropylene. This is used in flower pots, bumpers, carry-out beverage cupss, microwavable food containers, etc."),
-    p("ps: Polystyrene. This is used in toys, video cassettes, beverage/food coolers, beer cups, carry-out food containers, etc."),
-    p("pvc: PVC plastic. This is used in window frames, bottles for chemicals, flooring, plumbing pipes, etc.")
-  ),
-  mainPanel(
-    plotlyOutput("plot_3")),
-    p("This chart allows us to look at the count of different types of plastics by type. Since we only have the data of 2019 and 2020, it is hard to see the trend of count by time. Therefore, we made a graph for counts in 2019 and another graph for 2020. The default graph is for 2019. Users could change between the two graphs by changing the option of the first widget."),
-    p("The second widget controls which particular types of plastics users would like to see on the graph. The default choice is showing only polyester plastic. Users could choose up to having all categories show up on the graph. Clicking on the color bar of the legend on the right side could also hide a bar from showing on the graph. However, that won't take the category off the graph. "),
-    p("From these graphs we could have an idea of what plastic has a higher count overall and start forming plans to cut down the usage or reuse these plastics. Some of the plastics are recycable and some are not. By looking at the bars, we would be able to have a clearer idea of what the next steps should be. ")
   )
+  
+)
+
+
+
+plot_panel_3 <- tabPanel(
+  "Emissions by Plastic Type",
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(
+        inputId = "year_selection_3",
+        label = "Select Year",
+        choices = c("2019", "2020"),
+        selected = "2019",
+        multiple = FALSE
+      ),
+      selectInput(
+        inputId = "type_selection",
+        label = "Select Plastic Type",
+        choices = plot_3_df_1$type,
+        selected = "pet",
+        multiple = TRUE
+      ),
+      p("To avoid having a messy plot, we used abbreviations names for the different types of plastics. Here's the meaning of these abbreviations and what each type of plastics is commonly used for:"),
+      p("hdpe: high density polyethylene. This is used in plastic milk containers, plastic bags, bottle caps, trash cans, etc."),
+      p("ldpe: low density polyethylene. This is used in plastic bags, Ziploc bags, buckets, squeeze bottles, etc."),
+      p("pet: Polyester plastic count. This is used in Polyester fibers, soft drink bottles, food containers, etc. (This is the default choice)"),
+      p("pp: Polypropylene. This is used in flower pots, bumpers, carry-out beverage cupss, microwavable food containers, etc."),
+      p("ps: Polystyrene. This is used in toys, video cassettes, beverage/food coolers, beer cups, carry-out food containers, etc."),
+      p("pvc: PVC plastic. This is used in window frames, bottles for chemicals, flooring, plumbing pipes, etc.")
+    ),
+    mainPanel(
+      plotlyOutput("plot_3"),
+      p("This chart allows us to look at the count of different types of plastics by type. Since we only have the data of 2019 and 2020, it is hard to see the trend of count by time. Therefore, we made a graph for counts in 2019 and another graph for 2020. The default graph is for 2019. Users could change between the two graphs by changing the option of the first widget."),
+      p("The second widget controls which particular types of plastics users would like to see on the graph. The default choice is showing only polyester plastic. Users could choose up to having all categories show up on the graph. Clicking on the color bar of the legend on the right side could also hide a bar from showing on the graph. However, that won't take the category off the graph. "),
+      p("From these graphs we could have an idea of what plastic has a higher count overall and start forming plans to cut down the usage or reuse these plastics. Some of the plastics are recycable and some are not. By looking at the bars, we would be able to have a clearer idea of what the next steps should be. ")
+    )
+  )
+)
+  
 
 conclusion_panel <- tabPanel(
   "Takeaways",
