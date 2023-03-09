@@ -92,7 +92,8 @@ plot_panel_2 <- tabPanel(
       inputId = "panel2_selection",
       label = "Select Country",
       choices = events_and_volunteers_per_country$country,
-      selected = "United States of America",
+      selected = as.character(c("United States of America", "China",
+                                "Argentina", "United Kingdom", "Kenya")),
       multiple = TRUE)),
 
   mainPanel(plotlyOutput(outputId = "plot2"))
