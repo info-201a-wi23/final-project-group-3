@@ -99,7 +99,8 @@ plot_panel_2 <- tabPanel(
                                 "Argentina", "United Kingdom", "Kenya")),
       multiple = TRUE)),
 
-  mainPanel(plotlyOutput(outputId = "plot2"))
+  mainPanel(plotlyOutput(outputId = "plot2"),
+            p("This scatter plot depicts each country’s number of events and number of volunteers. By looking at the graph you can recognize which countries seem to be holding more events and how well those events are attended. The two outliers on the plot are China and the US, though they are far from each other. China’s data illustrates a lower number of events, but had many more volunteers, while the US was the opposite."))
 )
 
 plot_panel_3 <- tabPanel("Emissions by Plastic Type", 
