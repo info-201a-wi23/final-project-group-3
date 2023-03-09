@@ -62,6 +62,11 @@ ggplot(events_and_volunteers_per_country, aes(x = num_events, y = num_volunteers
   scale_x_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_events), by = 10000)) +
   scale_y_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_volunteers), by = 300000))
 
+my_theme <- bs_theme(bg = "#0b3d91",
+                     fg = "white", 
+                     primary = "#FCC780")
+my_theme <- bs_theme_update(my_theme, bootswatch = "flatly")
+
 # Application title
 intro_panel <- tabPanel(
   "Introduction",
@@ -160,6 +165,7 @@ conclusion_panel <- tabPanel(
 # A conclusion page of summary takeaways that hones in on at least 3 major takeaways from the project, which should be related to a specific aspect of your analysis. This page should include at least 250 words of text, but feel free to incorporate tables, graphics, or other elements necessary to convey your conclusions.
 
 ui <- navbarPage(
+  theme = my_theme,
   "Plastic Pollution Around the World",
   intro_panel,
   plot_panel,
