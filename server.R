@@ -41,10 +41,8 @@ events_and_volunteers_per_country <- plastics %>%
 by_type <- plastics %>%
   group_by(year) %>%
   summarize(
-    empty = sum(empty, na.rm = TRUE),
     hdpe = sum(hdpe, na.rm = TRUE),
     ldpe = sum(ldpe, na.rm = TRUE),
-    o = sum(o, na.rm = TRUE),
     pet = sum(pet, na.rm = TRUE),
     pp = sum(pp, na.rm = TRUE),
     ps = sum(ps, na.rm = TRUE),
@@ -55,17 +53,17 @@ data_2019 <- by_type %>%
 data_2020 <- by_type %>%
   filter(year == 2020)
 plot_3_df_1 <- data.frame(
-  type = c("empty", "hdpe", "ldpe", "o", "pet", "pp", "ps", "pvc"),
+  type = c("hdpe", "ldpe", "pet", "pp", "ps", "pvc"),
   count = c(
     data_2019$empty, data_2019$hdpe, data_2019$ldpe,
     data_2019$o, data_2019$pet, data_2019$pp, data_2019$ps, data_2019$pvc
   )
 )
 plot_3_df_2 <- data.frame(
-  type = c("empty", "hdpe", "ldpe", "o", "pet", "pp", "ps", "pvc"),
+  type = c("hdpe", "ldpe", "pet", "pp", "ps", "pvc"),
   count = c(
-    data_2020$empty, data_2020$hdpe, data_2020$ldpe,
-    data_2020$o, data_2020$pet, data_2020$pp, data_2020$ps, data_2020$pvc
+    data_2020$hdpe, data_2020$ldpe, data_2020$pet, 
+    data_2020$pp, data_2020$ps, data_2020$pvc
   )
 )
 

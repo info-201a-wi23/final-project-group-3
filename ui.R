@@ -21,10 +21,8 @@ top_20_companies <- plastics %>%
 by_type <- plastics %>%
   group_by(year) %>%
   summarize(
-    empty = sum(empty, na.rm = TRUE),
     hdpe = sum(hdpe, na.rm = TRUE),
     ldpe = sum(ldpe, na.rm = TRUE),
-    o = sum(o, na.rm = TRUE),
     pet = sum(pet, na.rm = TRUE),
     pp = sum(pp, na.rm = TRUE),
     ps = sum(ps, na.rm = TRUE),
@@ -35,17 +33,17 @@ data_2019 <- by_type %>%
 data_2020 <- by_type %>%
   filter(year == 2020)
 plot_3_df_1 <- data.frame(
-  type = c("empty", "hdpe", "ldpe", "o", "pet", "pp", "ps", "pvc"),
+  type = c("hdpe", "ldpe","pet", "pp", "ps", "pvc"),
   count = c(
-    data_2019$empty, data_2019$hdpe, data_2019$ldpe,
-    data_2019$o, data_2019$pet, data_2019$pp, data_2019$ps, data_2019$pvc
+    data_2019$hdpe, data_2019$ldpe, data_2019$pet, 
+    data_2019$pp, data_2019$ps, data_2019$pvc
   )
 )
 plot_3_df_2 <- data.frame(
-  type = c("empty", "hdpe", "ldpe", "o", "pet", "pp", "ps", "pvc"),
+  type = c("hdpe", "ldpe", "pet", "pp", "ps", "pvc"),
   count = c(
-    data_2020$empty, data_2020$hdpe, data_2020$ldpe,
-    data_2020$o, data_2020$pet, data_2020$pp, data_2020$ps, data_2020$pvc
+    data_2020$hdpe, data_2020$ldpe, data_2020$pet, 
+    data_2020$pp, data_2020$ps, data_2020$pvc
   )
 )
 # Group all countries and sum the # of events and volunteers
@@ -64,10 +62,19 @@ ggplot(events_and_volunteers_per_country, aes(x = num_events, y = num_volunteers
   scale_x_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_events), by = 10000)) +
   scale_y_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_volunteers), by = 300000))
 
+my_theme <- bs_theme(bg = "#0b3", #background color
+                     fg = "blue", #foreground color
+                     primary = "#FFF", # primary color
+) 
+# Update BootSwatch Theme
+my_theme <- bs_theme_update(my_theme, bootswatch = "quartz")
+
 # Application title
 intro_panel <- tabPanel(
   "Introduction",
-  fluidPage()
+  fluidPage(
+    includeMarkdown("intro.Rmd"),
+  )
 )
 # An introductory page that provides an overview of the project. What major questions are you seeking to answer? What data are you using to answer those questions? Please provide a URL link to the original source(s) of the data. Where did the data come from, and what are possible ethical questions or limitations to consider with this dataset? You should also include some additional "flare" on this landing page, such as an image.
 
@@ -139,6 +146,37 @@ plot_panel_3 <- tabPanel(
     p("From these graphs we could have an idea of what plastic has a higher count overall and start forming plans to cut down the usage or reuse these plastics. Some of the plastics are recycable and some are not. By looking at the bars, we would be able to have a clearer idea of what the next steps should be. ")
   )
 )
+      selected = as.character(c("United States of America", "China",
+                                "Argentina", "United Kingdom", "Kenya"), multiple = TRUE)
+
+  mainPanel(plotlyOutput(outputId = "plot2"),
+            p("This scatter plot depicts each country’s number of events and number of volunteers. By looking at the graph you can recognize which countries seem to be holding more events and how well those events are attended. The two outliers on the plot are China and the US, though they are far from each other. China’s data illustrates a lower number of events, but had many more volunteers, while the US was the opposite."))
+
+
+plot_panel_3 <- tabPanel("Emissions by Plastic Type", 
+                         sidebarPanel(
+                           selectInput(inputId = "year_selection_3",
+                                       label = "Select Year",
+                                       choices = c("2019", "2020"),
+                                       selected = "2019",
+                                       multiple = FALSE),
+                           selectInput(inputId = "type_selection",
+                                       label = "Select Plastic Type",
+                                       choices = plot_3_df_1$type,
+                                       selected = "pet",
+                                       multiple = TRUE),
+                           p("To avoid having a messy plot, we used abbreviations names for the different types of plastics. Here's the meaning of these abbreviations and what each type of plastics is commonly used for:"),
+                           p("hdpe: high density polyethylene. This is used in plastic milk containers, plastic bags, bottle caps, trash cans, etc."),
+                           p("ldpe: low density polyethylene. This is used in plastic bags, Ziploc bags, buckets, squeeze bottles, etc."),
+                           p("pet: Polyester plastic count. This is used in Polyester fibers, soft drink bottles, food containers, etc. (This is the default choice)"),
+                           p("pp: Polypropylene. This is used in flower pots, bumpers, carry-out beverage cupss, microwavable food containers, etc."),
+                           p("ps: Polystyrene. This is used in toys, video cassettes, beverage/food coolers, beer cups, carry-out food containers, etc."),
+                           p("pvc: PVC plastic. This is used in window frames, bottles for chemicals, flooring, plumbing pipes, etc.")),
+                   
+                         mainPanel(plotlyOutput("plot_3"),
+                                   p("This chart allows us to look at the count of different types of plastics by type. Since we only have the data of 2019 and 2020, it is hard to see the trend of count by time. Therefore, we made a graph for counts in 2019 and another graph for 2020. The default graph is for 2019. Users could change between the two graphs by changing the option of the first widget."),
+                                   p("The second widget controls which particular types of plastics users would like to see on the graph. The default choice is showing only polyester plastic. Users could choose up to having all categories show up on the graph. Clicking on the color bar of the legend on the right side could also hide a bar from showing on the graph. However, that won't take the category off the graph. "),
+                                   p("From these graphs we could have an idea of what plastic has a higher count overall and start forming plans to cut down the usage or reuse these plastics. Some of the plastics are recycable and some are not. By looking at the bars, we would be able to have a clearer idea of what the next steps should be. ")))
 
 conclusion_panel <- tabPanel(
   "Takeaways",
@@ -147,7 +185,8 @@ conclusion_panel <- tabPanel(
 # A conclusion page of summary takeaways that hones in on at least 3 major takeaways from the project, which should be related to a specific aspect of your analysis. This page should include at least 250 words of text, but feel free to incorporate tables, graphics, or other elements necessary to convey your conclusions.
 
 ui <- navbarPage(
-  "Climate Change Project",
+  theme = my_theme,
+  "Plastic Polution Around the World",
   intro_panel,
   plot_panel,
   plot_panel_2,
