@@ -21,14 +21,12 @@ chart <- top_20_companies %>%
   filter(!parent_company %in% c("null", "NULL", "Grand Total", "Unbranded")) %>%
   group_by(parent_company) %>%
   summarize(total = sum(company_total_plastics, na.rm = TRUE))
-View(chart)
 
 # Group all countries and sum the # of events and volunteers
 events_and_volunteers_per_country <- plastics %>%
   group_by(country) %>%
   summarize(num_events = sum(num_events, na.rm = TRUE), num_volunteers = sum(volunteers, na.rm = TRUE)) %>%
   filter(!country %in% c("EMPTY"))
-View(events_and_volunteers_per_country)
 
 # # Create a scatter plot of events and volunteers to show specific countries as outliers
 # ggplot(events_and_volunteers_per_country, aes(x = num_events, y = num_volunteers)) +
