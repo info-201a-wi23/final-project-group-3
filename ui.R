@@ -62,21 +62,18 @@ ggplot(events_and_volunteers_per_country, aes(x = num_events, y = num_volunteers
   scale_x_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_events), by = 10000)) +
   scale_y_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_volunteers), by = 300000))
 
-my_theme <- bs_theme(
-  bg = "#0b3", # background color
-  fg = "blue", # foreground color
-  primary = "#FFF", # primary color
-)
-# Update BootSwatch Theme
-my_theme <- bs_theme_update(my_theme, bootswatch = "quartz")
+my_theme <- bs_theme(bg = "#C9F0FF",
+                     fg = "black")
+                     
 
 # Application title
 intro_panel <- tabPanel(
   "Introduction",
   fluidPage(
     includeMarkdown("intro.Rmd"),
+    tags$image(src = "plasticphoto.jpg", height = 500, width = 500, ))
   )
-)
+
 # An introductory page that provides an overview of the project. What major questions are you seeking to answer? What data are you using to answer those questions? Please provide a URL link to the original source(s) of the data. Where did the data come from, and what are possible ethical questions or limitations to consider with this dataset? You should also include some additional "flare" on this landing page, such as an image.
 
 plot_panel <- tabPanel(
@@ -91,9 +88,9 @@ plot_panel <- tabPanel(
     )
   ),
   mainPanel(
-    plotlyOutput("plot"),
-    p("This visualization represents the top 20 plastic-emitting companies and how much total million metric tons of plastic waste was recorded for them in 2019 and 2020. As we can see, The Coca-Cola Company is by far the largest emittor of plastic, with 25530 millions metric tons emitted in these two years. Other prominent plastic pollutors include Universal Robina Corporation, Nestle, PepsiCo and Colgate-Palmolive.")
-  )
+    plotlyOutput("plot")
+  ),
+  p("This visualization represents the top 20 plastic-emitting companies and how much total million metric tons of plastic waste was recorded for them in 2019 and 2020. As we can see, The Coca-Cola Company is by far the largest emittor of plastic, with 25530 millions metric tons emitted in these two years. Other prominent plastic pollutors include Universal Robina Corporation, Nestle, PepsiCo and Colgate-Palmolive.")
 )
 
 plot_panel_2 <- tabPanel(
@@ -110,8 +107,10 @@ plot_panel_2 <- tabPanel(
       multiple = TRUE
     )
   ),
-  mainPanel(plotlyOutput(outputId = "plot2"))
-)
+  mainPanel(
+    plotlyOutput("plot2")),
+    p("This scatter plot depicts each country’s number of events and number of volunteers. By looking at the graph you can recognize which countries seem to be holding more events and how well those events are attended. The two outliers on the plot are China and the US, though they are far from each other. China’s data illustrates a lower number of events, but had many more volunteers, while the US was the opposite."))
+
 
 plot_panel_3 <- tabPanel(
   "Emissions by Plastic Type",
@@ -141,11 +140,10 @@ plot_panel_3 <- tabPanel(
     p("pvc: PVC plastic. This is used in window frames, bottles for chemicals, flooring, plumbing pipes, etc.")
   ),
   mainPanel(
-    plotlyOutput("plot_3"),
-    p("This chart allows us to look at the count of different types of plastics by type. Since we only have the data of 2019 and 2020, it is hard to see the trend of count by time. Therefore, we made a graph for counts in 2019 and another graph for 2020. The default graph is for 2019. Users could change between the two graphs by changing the option of the first widget."),
-    p("The second widget controls which particular types of plastics users would like to see on the graph. The default choice is showing only polyester plastic. Users could choose up to having all categories show up on the graph. Clicking on the color bar of the legend on the right side could also hide a bar from showing on the graph. However, that won't take the category off the graph. "),
-    p("From these graphs we could have an idea of what plastic has a higher count overall and start forming plans to cut down the usage or reuse these plastics. Some of the plastics are recycable and some are not. By looking at the bars, we would be able to have a clearer idea of what the next steps should be. ")
-  )
+    plotlyOutput("plot_3")),
+  p("This chart allows us to look at the count of different types of plastics by type. Since we only have the data of 2019 and 2020, it is hard to see the trend of count by time. Therefore, we made a graph for counts in 2019 and another graph for 2020. The default graph is for 2019. Users could change between the two graphs by changing the option of the first widget."),
+  p("The second widget controls which particular types of plastics users would like to see on the graph. The default choice is showing only polyester plastic. Users could choose up to having all categories show up on the graph. Clicking on the color bar of the legend on the right side could also hide a bar from showing on the graph. However, that won't take the category off the graph. "),
+  p("From these graphs we could have an idea of what plastic has a higher count overall and start forming plans to cut down the usage or reuse these plastics. Some of the plastics are recycable and some are not. By looking at the bars, we would be able to have a clearer idea of what the next steps should be. ")
 )
 selected <- as.character(c(
   "United States of America", "China",
@@ -184,12 +182,11 @@ plot_panel_3 <- tabPanel(
     p("pvc: PVC plastic. This is used in window frames, bottles for chemicals, flooring, plumbing pipes, etc.")
   ),
   mainPanel(
-    plotlyOutput("plot_3"),
+    plotlyOutput("plot_3")),
     p("This chart allows us to look at the count of different types of plastics by type. Since we only have the data of 2019 and 2020, it is hard to see the trend of count by time. Therefore, we made a graph for counts in 2019 and another graph for 2020. The default graph is for 2019. Users could change between the two graphs by changing the option of the first widget."),
     p("The second widget controls which particular types of plastics users would like to see on the graph. The default choice is showing only polyester plastic. Users could choose up to having all categories show up on the graph. Clicking on the color bar of the legend on the right side could also hide a bar from showing on the graph. However, that won't take the category off the graph. "),
     p("From these graphs we could have an idea of what plastic has a higher count overall and start forming plans to cut down the usage or reuse these plastics. Some of the plastics are recycable and some are not. By looking at the bars, we would be able to have a clearer idea of what the next steps should be. ")
   )
-)
 
 conclusion_panel <- tabPanel(
   "Takeaways",
