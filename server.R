@@ -96,27 +96,28 @@ server <- function(input, output) {
   plotlyOutput(outputId = "plot")
 
   output$plot2 <- renderPlotly({
-    
-    chart2 <- events_and_volunteers_per_country %>% 
+    chart2 <- events_and_volunteers_per_country %>%
       filter(country %in% input$panel2_selection)
 
-    
+
     plot2 <- ggplot(data = chart2, aes(x = num_events, y = num_volunteers)) +
       geom_point(aes(color = country)) +
-      labs(title = "Number of Events vs Number of Volunteers by Country",
-           x = "Number of Events", 
-           y = "Number of Volunteers") +
+      labs(
+        title = "Number of Events vs Number of Volunteers by Country",
+        x = "Number of Events",
+        y = "Number of Volunteers"
+      ) +
       theme_minimal() +
       theme(legend.position = "none") +
       scale_x_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_events), by = 10000)) +
       scale_y_continuous(breaks = seq(0, max(events_and_volunteers_per_country$num_volunteers), by = 300000))
 
-        
+
     return(ggplotly(plot2))
   })
-  
+
   plotOutput(outputId = "plot2")
-  
+
   output$plot_3 <- renderPlotly({
     if (input$year_selection_3 == "2019") {
       filtered_3 <- plot_3_df_1 %>% filter(type %in% input$type_selection)
@@ -138,4 +139,25 @@ server <- function(input, output) {
     return(ggplotly(p3, tooltip = c("x", "y")))
   })
   plotlyOutput(outputId = "plot_3")
+
+  # Conclusion
+  output$Takeaways <- renderUI({
+    HTML("<h2>Key Findings</h2>
+          <h4>We initially sought to answer the following questions:</h4>
+          <ul>
+            <li>Which company was responsible for the most amount of plastic?</li>
+            <li>Which country had the most amount of events and volunteers for plastic collection?</li>
+            <li>What type of plastic was collected the most overall?</li>
+          </ul>
+          <p>Our critical research questions aimed to identify the brands responsible for the most plastic pollution, allowing for targeted efforts to reduce their impact. With increased awareness of the issue of single-use plastics, we extracted information from a dataset to explore the types of plastic and locations most affected, revealing crucial insights for addressing the issue of plastic pollution. By identifying the companies at fault, our research provides a basis for holding them accountable and seeking ways to lessen their effect on the environment. Our findings have important implications for raising awareness and driving change.</p>
+          <h2>Specific Takeaways</h2>
+          <ul>
+            <li>The Coca-Cola Parent Company was responsible for the most plastic emissions (<span style='background-color: yellow; font-weight: bold;'>25,530 million metric tons</span>)</li>
+            <li>The United States of America had the highest number of events (<span style='background-color: yellow; font-weight: bold;'>74,870</span>), yet a fairly low number of volunteers in relation (<span style='background-color: yellow; font-weight: bold;'>623,556</span>)</li>
+            <li>Indonesia had the highest total number of volunteers (<span style='background-color: yellow; font-weight: bold;'>4,471,848</span>) with only <span style='background-color: yellow; font-weight: bold;'>35,052</span> events.</li>
+            <li>The highest plastic-type emitted was Polyester (PET) in 2019 (<span style='background-color: yellow; font-weight: bold;'>193,796</span>).</li>
+          </ul>
+          <p>Insights from our research into the amount and types of plastic produced by companies have broader implications for technologists, designers, and policymakers. Technologists can use the data to develop new technologies and products that reduce plastic waste, while designers can use it to design more sustainable products. Policymakers can use the data to inform regulations and policies aimed at reducing plastic waste and to track progress over time with a focus on the mass-producing companies we discovered.</p>
+          <p>In conclusion, while this data provides valuable insights in the amount and types of plastic pollution and their main sources, it is important to note that it is not entirely comprehensive and may not accurately reflect the full extent of plastic pollution each year. However, even with the data present here, the amount of plastic emissions is unacceptable and will ultimately lead to our planet's demise. Change is crucial.</p>")
+  })
 }
