@@ -21,10 +21,8 @@ top_20_companies <- plastics %>%
 by_type <- plastics %>%
   group_by(year) %>%
   summarize(
-    empty = sum(empty, na.rm = TRUE),
     hdpe = sum(hdpe, na.rm = TRUE),
     ldpe = sum(ldpe, na.rm = TRUE),
-    o = sum(o, na.rm = TRUE),
     pet = sum(pet, na.rm = TRUE),
     pp = sum(pp, na.rm = TRUE),
     ps = sum(ps, na.rm = TRUE),
