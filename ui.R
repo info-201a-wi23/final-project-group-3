@@ -35,17 +35,17 @@ data_2019 <- by_type %>%
 data_2020 <- by_type %>%
   filter(year == 2020)
 plot_3_df_1 <- data.frame(
-  type = c("empty", "hdpe", "ldpe", "o", "pet", "pp", "ps", "pvc"),
+  type = c("hdpe", "ldpe","pet", "pp", "ps", "pvc"),
   count = c(
-    data_2019$empty, data_2019$hdpe, data_2019$ldpe,
-    data_2019$o, data_2019$pet, data_2019$pp, data_2019$ps, data_2019$pvc
+    data_2019$hdpe, data_2019$ldpe, data_2019$pet, 
+    data_2019$pp, data_2019$ps, data_2019$pvc
   )
 )
 plot_3_df_2 <- data.frame(
-  type = c("empty", "hdpe", "ldpe", "o", "pet", "pp", "ps", "pvc"),
+  type = c("hdpe", "ldpe", "pet", "pp", "ps", "pvc"),
   count = c(
-    data_2020$empty, data_2020$hdpe, data_2020$ldpe,
-    data_2020$o, data_2020$pet, data_2020$pp, data_2020$ps, data_2020$pvc
+    data_2020$hdpe, data_2020$ldpe, data_2020$pet, 
+    data_2020$pp, data_2020$ps, data_2020$pvc
   )
 )
 # Group all countries and sum the # of events and volunteers
@@ -123,10 +123,8 @@ plot_panel_3 <- tabPanel("Emissions by Plastic Type",
                                        selected = "pet",
                                        multiple = TRUE),
                            p("To avoid having a messy plot, we used abbreviations names for the different types of plastics. Here's the meaning of these abbreviations and what each type of plastics is commonly used for:"),
-                           p("empty: category left empty (unknown)."),
                            p("hdpe: high density polyethylene. This is used in plastic milk containers, plastic bags, bottle caps, trash cans, etc."),
                            p("ldpe: low density polyethylene. This is used in plastic bags, Ziploc bags, buckets, squeeze bottles, etc."),
-                           p("o: Category marked as other."),
                            p("pet: Polyester plastic count. This is used in Polyester fibers, soft drink bottles, food containers, etc. (This is the default choice)"),
                            p("pp: Polypropylene. This is used in flower pots, bumpers, carry-out beverage cupss, microwavable food containers, etc."),
                            p("ps: Polystyrene. This is used in toys, video cassettes, beverage/food coolers, beer cups, carry-out food containers, etc."),
@@ -144,7 +142,7 @@ conclusion_panel <- tabPanel(
 
 ui <- navbarPage(
   theme = my_theme,
-  "Climate Change Project",
+  "Plastic polution around the world",
   intro_panel,
   plot_panel,
   plot_panel_2,
